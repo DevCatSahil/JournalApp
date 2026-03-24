@@ -3,6 +3,7 @@ package com.sahil.JournalEntry.controllers;
 import com.sahil.JournalEntry.model.JournalEntry;
 import com.sahil.JournalEntry.model.User;
 import com.sahil.JournalEntry.service.JournalEntryService;
+import com.sahil.JournalEntry.service.QuoteService;
 import com.sahil.JournalEntry.service.UserService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private QuoteService quoteService;
+
     @GetMapping
-    public User getUserDetails(){
-    return userService.getCurrentUser();
+    public ResponseEntity<String> getUserDetails(){
+    User user= userService.getCurrentUser();
+    return new ResponseEntity<>("Hi "+user.getUsername()+". Quote for Today is: "+quoteService.getQuotes().get(0).getQuote(),HttpStatus.OK);
     }
 
 //    @GetMapping
